@@ -1,15 +1,31 @@
-import React, { useEffect } from 'react';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import styles from './App.module.css';
+import corona from './assets/image.png'
 import { Card, Chart, CountryPicker } from './components'
 import { fetchData } from './api'
 
 function App() {
-  useEffect(() => fetchData(), [])
+  const [data, setData] = useState({});
+  const [countryPicker, setCountryPicker] = useState('')
+
+  useEffect(() => {
+    const fetchAPI = async () => {
+      setData(await fetchData());
+    }
+    fetchAPI();
+  }, [])
+
+  const handleCountryChange = async (country) => {
+    setData(await fetchData(country));
+    setCountryPicker(country)
+  }
+
   return (
-    <div className="App">
-      <Card />
-      <Chart />
-      <CountryPicker />
+    <div className={styles.container}>
+      <img src={corona} className={styles.image} alt="Loading..." />
+      <Card data={data} />
+      <CountryPicker handleCountryChange={handleCountryChange} />
+      <Chart data={data} countryPicker={countryPicker} />
     </div>
   );
 }
