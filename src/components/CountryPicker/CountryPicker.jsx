@@ -13,7 +13,6 @@ export default function CountryPicker({ handleCountryChange }) {
         fetchAPI();
     }, [])
 
-    console.table("datum:", fetchedCountries)
     return (
         <FormControl className={styles.formControl}>
             <NativeSelect defaultValue='' onChange={(e) => handleCountryChange(e.target.value)}>
